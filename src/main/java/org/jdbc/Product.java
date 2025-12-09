@@ -8,19 +8,15 @@ public class Product {
     private int id;
     private String name;
     private Instant creationDatetime;
-    private List<Category> categories;
+    private Category categories;
 
-    public Product(int id, String name, Instant creationDatetime, List<Category> categories) {
+    public Product(int id, String name, Instant creationDatetime, Category categories) {
         this.id = id;
         this.name = name;
         this.creationDatetime = creationDatetime;
-        this.categories = (categories != null) ? categories : new ArrayList<>();
+        this.categories = categories;
     }
 
-    public Product(int id, String name, Instant creationDatetime, Category category) {
-        this(id, name, creationDatetime,
-                (category != null) ? List.of(category) : null);
-    }
 
     public int getId() {
         return id;
@@ -34,22 +30,15 @@ public class Product {
         return creationDatetime;
     }
 
-    public List<Category> getCategories() {
+    public Category getCategories() {
         return categories;
     }
 
-    public String getCategoryNames() {
-        List<String> names = new ArrayList<>();
-        for (Category c : categories) {
-            names.add(c.getName());
-        }
-        return String.join(", ", names);
-    }
 
     @Override
     public String toString() {
         return "Product{id=" + id + "\nName='" + name +
                 "\nCreation=" + creationDatetime +
-                "\nCategories=[" + getCategoryNames() + "]}";
+                "\nCategories=[" + categories + "]}";
     }
 }
