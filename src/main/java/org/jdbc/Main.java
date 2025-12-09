@@ -28,11 +28,6 @@ public class Main {
             System.err.println("Error while getAllCategories: " + e.getMessage());
             e.printStackTrace();
         }
-        System.out.println();
-
-
-        System.out.println("=== Test of getProductsByCriteria(String productName, String categoryName, Instant creationMin, Instant creationMax) ===");
-
 
         System.out.println("=== Test of getProductsByCriteria(String productName, String categoryName, Instant creationMin, Instant creationMax, int page, int size) ===");
         // Données exactes du tableau page 5 (d)
