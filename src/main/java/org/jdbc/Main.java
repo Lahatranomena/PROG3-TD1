@@ -1,63 +1,46 @@
 package org.jdbc;
 
-import java.sql.Connection;
 import java.sql.SQLException;
-import java.time.Instant;
 import java.util.List;
 
 public class Main {
-    public static void main(String[] args) throws SQLException {
+
+    public static void main(String[] args)
+            throws SQLException {
         DataRetriever dataRetriever = new DataRetriever();
-        System.out.println(dataRetriever.getAllCategories());
 
+        printProducts("  List product page 1,10 ", dataRetriever.getProductList(1,10));
+        printProducts(" List product page 1,5 ", dataRetriever.getProductList(1,5));
+        printProducts(" List product page 1,3", dataRetriever.getProductList(1,3));
+        printProducts("List product page 2,2", dataRetriever.getProductList(2,2));
 
-        System.out.println(dataRetriever.getProductsByCriteria("Dell",null,null,null));
-        System.out.println(dataRetriever.getProductsByCriteria(null,"informatique",null,null));
-        System.out.println(dataRetriever.getProductsByCriteria("Iphone","mobile",null,null));
-        System.out.println(dataRetriever.getProductsByCriteria(null,null,Instant.parse("2024-02-01T00:00:00Z"),null));
-        System.out.println(dataRetriever.getProductsByCriteria(null,"informatique",null,null));
-        System.out.println(dataRetriever.getProductsByCriteria(null,"informatique",null,null));
-        System.out.println(dataRetriever.getProductsByCriteria(null,"informatique",null,null));
-        System.out.println(dataRetriever.getProductsByCriteria(null,"informatique",null,null));
+        printProducts("List product Dell", dataRetriever.getProductsByCriteria("Dell", null, null, null));
+        printProducts("List product Informatique", dataRetriever.getProductsByCriteria(null, "informatique", null, null));
+        printProducts("List product Iphone Mobile ", dataRetriever.getProductsByCriteria("Iphone", "mobile", null, null));
+        printProducts("List product Samsung Bureau", dataRetriever.getProductsByCriteria("Samsung", "bureau", null, null));
+        printProducts("List product Sony Informatique ", dataRetriever.getProductsByCriteria("sony", "informatique", null, null));
+        printProducts("List product category Audio ", dataRetriever.getProductsByCriteria(null, "audio", null, null));
+        printProducts("All List product", dataRetriever.getProductsByCriteria(null, null, null, null));
 
+        printProducts(" List product (page 1, size 10) ",
+                dataRetriever.getProductsByCriteria(null, null, null, null, 1, 10));
 
-        try {
-            System.out.println("Product contains phone");
-            List<Product> listOne = dataRetriever.getProductsByCriteria(
-                    "phone", null, null, null, 1, 10
-            );
-            for (Product p : listOne) {
-                System.out.println(p);
-            }
-            System.out.println("\nProduct of categories 'Informatique'");
-            List<Product> listTwo = dataRetriever.getProductsByCriteria(
-                    null, "Informatique", null, null, 1, 10
-            );
-            for (Product p : listTwo) {
-                System.out.println(p);
-            }
-            System.out.println("\nProduct created between '2024-03-01 et 2024-05-31'");
-            Instant min = Instant.parse("2024-03-01T00:00:00Z");
-            Instant max = Instant.parse("2024-05-31T23:59:59Z");
+        printProducts("List product Dell (page 1, size 5) ",
+                dataRetriever.getProductsByCriteria("Dell", null, null, null, 1, 5));
 
-            List<Product> listThree = dataRetriever.getProductsByCriteria(
-                    null, null, min, max, 1, 10
-            );
-            for (Product p : listThree) {
-                System.out.println(p);
-            }
-
-            System.out.println("\nPage 2: size = 5, catégorie 'Informatique'");
-            List<Product> listFour = dataRetriever.getProductsByCriteria(
-                    null, "Informatique", null, null, 2, 5
-            );
-            for (Product p : listFour) {
-                System.out.println(p);
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        printProducts("List product category Informatique (page 1, size 5)",
+                dataRetriever.getProductsByCriteria(null, "informatique", null, null, 1, 5));
     }
 
+    private static void printProducts(String title, List<Product> products) {
+        System.out.println(title);
+        if (products == null || products.isEmpty()) {
+            System.out.println("No product found");
+        } else {
+            for (Product p : products) {
+                System.out.println(p);
+            }
+        }
+        System.out.println();
+    }
 }
